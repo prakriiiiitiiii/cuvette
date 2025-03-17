@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Form</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body>
+    <nav class="bg-white shadow-md border-b border-gray-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center">
+                    <a href="#" class="flex-shrink-0">
+                        <img class="h-8 w-auto" src="logo.svg" alt="Cuvette">
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="main flex items-center justify-center h-screen bg-gray-100">
+        <div class="bg-white p-6 rounded-lg shadow-md w-96 text-center">
+            <h2 class="text-2xl font-bold text-center mb-4">Login</h2>
+            
+            <input type="email" id="email" placeholder="Email" class="w-full px-4 py-2 border border-gray-300 rounded-lg mb-3 focus:outline-none focus:ring-2 focus:ring-blue-500">
+            <input type="password" id="password" placeholder="Password" class="w-full px-4 py-2 border border-gray-300 rounded-lg mb-3 focus:outline-none focus:ring-2 focus:ring-blue-500">
+            
+            <div class="flex justify-center mb-3">
+                <label class="mr-3">
+                    <input type="radio" name="role" value="jobseeker"> Job Seeker
+                </label>
+                <label>
+                    <input type="radio" name="role" value="employer"> Employer
+                </label>
+            </div>
+            
+            <button onclick="validateLogin()" class="w-full bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600">Login</button>
+            <p class="mt-4 text-sm text-gray-600">Don't have an account? 
+                <a href="#" class="text-blue-600 hover:underline">Sign Up</a>
+            </p>
+        </div>
+    </div>
+
+    <script>
+        function validateLogin() {
+            const email = document.getElementById("email").value;
+            const password = document.getElementById("password").value;
+            const role = document.querySelector('input[name="role"]:checked');
+
+            if (email === "rawatprakriti9@gmail.com" && password === "123") {
+                if (role) {
+                    if (role.value === "jobseeker") {
+                        window.location.href = "jobSeeker.html";
+                    } else if (role.value === "employer") {
+                        window.location.href = "employer.html";
+                    }
+                } else {
+                    alert("Please select a role (Job Seeker or Employer)");
+                }
+            } else {
+                alert("Invalid Email or Password");
+            }
+        }
+    </script>
+</body>
+</html>

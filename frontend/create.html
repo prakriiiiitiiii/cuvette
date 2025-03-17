@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create a Job</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body>
+    <nav class="bg-white shadow-md border-b border-gray-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center">
+                    <a href="#" class="flex-shrink-0">
+                        <img class="h-8 w-auto" src="logo.svg" alt="Cuvette">
+                    </a>
+                </div>
+                <div class="flex items-center">
+                    <div class="ml-4 flex items-center">
+                        <div class="flex items-center border border-gray-300 rounded-lg py-1 px-3">
+                            <img class="h-8 w-8 rounded-full" src="user.png" alt="Profile">
+                            <span class="ml-2 text-sm font-medium text-gray-700">Prakrit Rawat</span>
+                            <svg class="ml-2 h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                                <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="main flex items-center justify-center min-h-screen bg-gray-100">
+        <div class="w-full max-w-md p-6 bg-white shadow-md rounded-lg">
+            <h2 class="text-2xl font-bold text-center mb-6">Create a Job</h2>
+            <form id="jobForm" class="max-w-md mx-auto bg-white rounded-lg">
+                <label class="block text-sm font-medium text-gray-700">Job Title</label>
+                <input type="text" id="title" placeholder="Job Title" required 
+                    class="w-full p-2 border rounded mb-4 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                
+                <label class="block text-sm font-medium text-gray-700">Location</label>
+                <input type="text" id="location" placeholder="Location" required 
+                    class="w-full p-2 border rounded mb-4 focus:outline-none focus:ring-2 focus:ring-blue-500">
+
+                <label class="block text-sm font-medium text-gray-700">Tech Stack (comma-separated)</label>
+                <input type="text" id="tech_stack" placeholder="Tech Stack" 
+                    class="w-full p-2 border rounded mb-4 focus:outline-none focus:ring-2 focus:ring-blue-500">
+
+                <label class="block text-sm font-medium text-gray-700">Package (LPA)</label>
+                <input type="text" id="package" placeholder="Package (LPA)" 
+                    class="w-full p-2 border rounded mb-4 focus:outline-none focus:ring-2 focus:ring-blue-500">
+
+                <label class="block text-sm font-medium text-gray-700">Start Date</label>
+                <input type="date" id="start_date" 
+                    class="w-full p-2 border rounded mb-4 focus:outline-none focus:ring-2 focus:ring-blue-500">
+
+                <label class="block text-sm font-medium text-gray-700">Openings</label>
+                <input type="number" id="openings" placeholder="Openings" value="1" 
+                    class="w-full p-2 border rounded mb-4 focus:outline-none focus:ring-2 focus:ring-blue-500">
+
+                <label class="block text-sm font-medium text-gray-700">Experience Required</label>
+                <input type="text" id="experience" placeholder="Experience Required" 
+                    class="w-full p-2 border rounded mb-4 focus:outline-none focus:ring-2 focus:ring-blue-500">
+
+                <label class="block text-sm font-medium text-gray-700">Job Type</label>
+                <select id="job_type" class="w-full p-2 border rounded mb-4 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    <option>Full-time</option>
+                    <option>Part-time</option>
+                    <option>Internship</option>
+                </select>
+
+                <button type="submit" class="w-full bg-blue-600 text-white p-2 rounded hover:bg-blue-700">Create Job</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById("jobForm").addEventListener("submit", async function(event) {
+            event.preventDefault();
+
+            const jobData = {
+                title: document.getElementById("title").value,
+                location: document.getElementById("location").value,
+                tech: document.getElementById("tech_stack").value.split(",").map(tech => tech.trim()),
+                package: document.getElementById("package").value,
+                startdate: document.getElementById("start_date").value,
+                openings: document.getElementById("openings").value,
+                experience: document.getElementById("experience").value,
+                type: document.getElementById("job_type").value
+            };
+
+            try {
+                const response = await fetch("http://localhost:3000/jobs/createjob", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify(jobData)
+                });
+
+                if (response.ok) {
+                    alert("Job created successfully!");
+                    document.getElementById("jobForm").reset();
+                } else {
+                    alert("Error creating job.");
+                }
+            } catch (error) {
+                console.error("Error:", error);
+                alert("Failed to connect to the server.");
+            }
+        });
+    </script>
+</body>
+</html>
